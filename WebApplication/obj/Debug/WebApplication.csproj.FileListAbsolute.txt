@@ -64,6 +64,5 @@ F:\work\gitRepo\WebApplication\WebApplication\bin\System.Web.Optimization.xml
 F:\work\gitRepo\WebApplication\WebApplication\bin\Antlr3.Runtime.pdb
 F:\work\gitRepo\WebApplication\WebApplication\bin\Newtonsoft.Json.xml
 F:\work\gitRepo\WebApplication\WebApplication\bin\Microsoft.AspNet.FriendlyUrls.xml
-F:\work\gitRepo\WebApplication\WebApplication\obj\Debug\WebApplication.csprojResolveAssemblyReference.cache
 F:\work\gitRepo\WebApplication\WebApplication\obj\Debug\WebApplication.dll
 F:\work\gitRepo\WebApplication\WebApplication\obj\Debug\WebApplication.pdb

@@ -18,7 +18,7 @@ namespace WebApplication
         SqlDataAdapter _adp;
         DataSet _ods;
         studentCls _objStu;
-
+      
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace WebApplication
         {
             //int i = 10, j = 0,y;
             //y = i / j;
-
+          
             lblMsg.Text = string.Empty;
             Page.Title = "Register for Online Exam Quiz";
         }
@@ -43,7 +43,7 @@ namespace WebApplication
                 drpSkill.Focus();
                 return;
             }
-                //do contact_no unique validation and insert data
+               
             if(Page.IsValid)
             {
                 _objStu = new studentCls();
@@ -51,13 +51,20 @@ namespace WebApplication
                 _objStu.Lnm = txtLNm.Text.Trim().Replace("'", "''");
                 _objStu.EducationalLvl = txtEduLvl.Text.Trim().Replace("'", "''");
                 _objStu.Skill = drpSkill.SelectedValue;
-                _objStu.ContactNo =int.Parse(txtContNo.Text.Trim().Replace("'", "''"));
+                _objStu.ContactNo =double.Parse(txtContNo.Text.Trim().ToString());
                 _objStu.Email = txtEmail.Text.Trim().Replace("'", "''");
-
-                if (isExistPh(_objStu.ContactNo))
+                //do contact_no unique validation and if not exist then go to quixe taking page
+                if (!isExistPh(_objStu.ContactNo))
                 {
+                    //redirect to quixe taking page
+
                 }
-                 
+                else
+                {
+                    lblMsg.Text = "Please Enter another Ph No for taking Quixe !!";
+                    txtContNo.Text = "";
+                    txtContNo.Focus();
+                }
             }
         }
 
@@ -65,13 +72,33 @@ namespace WebApplication
         #endregion
 
         #region Methods
-        private bool isExistPh(int contactNo)
+        private bool isExistPh(double contactNo)
         {
-            Boolean flg;
+            Boolean flg=false;
 
+            try
+            {
+                _ods = new DataSet();
+                string _strQury = DbSqlQuery._sSqlExistPhNo + contactNo;
+                _conn = new SqlConnection(DbConCls.getDbConn());
+                _cmd = new SqlCommand(_strQury, _conn);
+                _adp = new SqlDataAdapter(_strQury, DbConCls.getDbConn());                
+                _adp.Fill(_ods);
+                if (int.Parse(_ods.Tables[0].Rows[0]["cnt"].ToString()) > 0)
+                    flg = true;
+              
+            }
+            catch (Exception ex)
+            {
 
-            //return flg;
-            return true;
+            }
+            finally
+            {
+                _conn.Close();
+                _cmd.Clone();
+                _adp.Dispose();
+            }           
+            return flg;
         }
         #endregion
     }

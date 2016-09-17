@@ -12,8 +12,9 @@ namespace WebApplication.App_Code
             return System.Configuration.ConfigurationManager.ConnectionStrings["QuizDBConn"].ConnectionString.ToString();
         }
     }
-    public static class DbSqlQuery
+    public partial class DbSqlQuery
     {
-        public const string _sSqlExistPhNo = "";
+        public  static string _sSqlExistPhNo = "select ISNULL(count(stuDtl.contactNo),'0') as cnt from dbo.studentDtl as stuDtl where stuDtl.contactNo= ";
+        
     }
 }
