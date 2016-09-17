@@ -5,6 +5,7 @@ using System.Web;
 
 namespace WebApplication.App_Code
 {
+    [Serializable]
     public class studentCls
     {
         public string Fnm { get; set; }

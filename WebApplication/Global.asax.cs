@@ -14,6 +14,23 @@ namespace WebApplication
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            // Add Routes.
+            RegisterCustomRoutes(RouteTable.Routes);
+        }
+        void RegisterCustomRoutes(RouteCollection routes)
+        {
+            routes.MapPageRoute("QuizSelectionRoute", "QuizSelection", "~/QuizSelection.aspx"); //1
+            routes.MapPageRoute("QuizExamRoute", "QuizExam/{QuizId}", "~/QuizExamTest.aspx");//2
+            routes.MapPageRoute("QuizExamResultRoute", "QuizResult", "~/QuizExamResult.aspx");//3
+
+            /*
+            routes.MapPageRoute(
+                "ProductByNameRoute",
+                "Product/{productName}",
+                "~/ProductDetails.aspx"
+            );
+            */
         }
         void Application_Error(object sender, EventArgs e)
         {

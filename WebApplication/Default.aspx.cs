@@ -28,7 +28,12 @@ namespace WebApplication
         {
             //int i = 10, j = 0,y;
             //y = i / j;
-          
+          if(Session["StudentData"] != null)
+            {
+                Session.Clear();
+                Session.Abandon();
+            }
+
             lblMsg.Text = string.Empty;
             Page.Title = "Register for Online Exam Quiz";
         }
@@ -57,6 +62,8 @@ namespace WebApplication
                 if (!isExistPh(_objStu.ContactNo))
                 {
                     //redirect to quixe taking page
+                    Session["StudentData"] = _objStu;
+                    Response.RedirectToRoute("QuizSelectionRoute");
 
                 }
                 else
@@ -72,6 +79,7 @@ namespace WebApplication
         #endregion
 
         #region Methods
+
         private bool isExistPh(double contactNo)
         {
             Boolean flg=false;
@@ -85,12 +93,10 @@ namespace WebApplication
                 _adp = new SqlDataAdapter(_strQury, DbConCls.getDbConn());                
                 _adp.Fill(_ods);
                 if (int.Parse(_ods.Tables[0].Rows[0]["cnt"].ToString()) > 0)
-                    flg = true;
-              
+                    flg = true;              
             }
             catch (Exception ex)
-            {
-
+            { 
             }
             finally
             {
