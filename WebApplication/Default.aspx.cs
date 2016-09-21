@@ -17,9 +17,7 @@ namespace WebApplication
         SqlCommand _cmd;
         SqlDataAdapter _adp;
         DataSet _ods;
-        studentCls _objStu;
-      
-
+        studentCls _objStu;    
         #endregion
 
         #region Events
@@ -51,26 +49,31 @@ namespace WebApplication
                
             if(Page.IsValid)
             {
-                _objStu = new studentCls();
-                _objStu.Fnm = txtFNm.Text.Trim().Replace("'", "''");
-                _objStu.Lnm = txtLNm.Text.Trim().Replace("'", "''");
-                _objStu.EducationalLvl = txtEduLvl.Text.Trim().Replace("'", "''");
-                _objStu.Skill = drpSkill.SelectedValue;
-                _objStu.ContactNo =double.Parse(txtContNo.Text.Trim().ToString());
-                _objStu.Email = txtEmail.Text.Trim().Replace("'", "''");
-                //do contact_no unique validation and if not exist then go to quixe taking page
-                if (!isExistPh(_objStu.ContactNo))
+                try
                 {
-                    //redirect to quixe taking page
-                    Session["StudentData"] = _objStu;
-                    Response.RedirectToRoute("QuizSelectionRoute");
-
+                    _objStu = new studentCls();
+                    _objStu.Fnm = txtFNm.Text.Trim().Replace("'", "''");
+                    _objStu.Lnm = txtLNm.Text.Trim().Replace("'", "''");
+                    _objStu.EducationalLvl = txtEduLvl.Text.Trim().Replace("'", "''");
+                    _objStu.Skill = drpSkill.SelectedValue;
+                    _objStu.ContactNo = double.Parse(txtContNo.Text.Trim().ToString());
+                    _objStu.Email = txtEmail.Text.Trim().Replace("'", "''");
+                    //do contact_no unique validation and if not exist then go to quixe taking page
+                    if (!isExistPh(_objStu.ContactNo))
+                    {
+                        //redirect to quixe taking page
+                        Session["StudentData"] = _objStu;
+                        Response.RedirectToRoute("QuizSelectionRoute");
+                    }
+                    else
+                    {
+                        lblMsg.Text = "Please Enter another Ph No for taking Quixe !!";
+                        txtContNo.Text = "";
+                        txtContNo.Focus();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    lblMsg.Text = "Please Enter another Ph No for taking Quixe !!";
-                    txtContNo.Text = "";
-                    txtContNo.Focus();
                 }
             }
         }
@@ -101,7 +104,7 @@ namespace WebApplication
             finally
             {
                 _conn.Close();
-                _cmd.Clone();
+                _cmd.Dispose();
                 _adp.Dispose();
             }           
             return flg;

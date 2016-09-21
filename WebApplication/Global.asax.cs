@@ -20,6 +20,7 @@ namespace WebApplication
         }
         void RegisterCustomRoutes(RouteCollection routes)
         {
+            routes.MapPageRoute("QuizHomeRoute", "Default", "~/Default.aspx"); //0
             routes.MapPageRoute("QuizSelectionRoute", "QuizSelection", "~/QuizSelection.aspx"); //1
             routes.MapPageRoute("QuizExamRoute", "QuizExam/{QuizId}", "~/QuizExamTest.aspx");//2
             routes.MapPageRoute("QuizExamResultRoute", "QuizResult", "~/QuizExamResult.aspx");//3
