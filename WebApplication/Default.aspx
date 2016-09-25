@@ -45,6 +45,8 @@
                         <asp:ListItem Text="java" Value="java"></asp:ListItem>
                         <asp:ListItem Text="PlSql" Value="PlSql"></asp:ListItem>
                     </asp:DropDownList>
+                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorDrpSkill"  runat="server" InitialValue="0"  ValidationGroup="chk" 
+                         ControlToValidate="drpSkill" ForeColor="Red"  ErrorMessage="Please select a Skill Type"></asp:RequiredFieldValidator>
                 </td>
             </tr>
             <tr>
@@ -76,7 +78,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <asp:Label ID="lblMsg" runat="server" Text="" EnableViewState="false"></asp:Label>
+                    <asp:Label ID="lblMsg" runat="server" Text="" EnableViewState="false" ForeColor="Red"></asp:Label>
                   
                 </td>
             </tr>

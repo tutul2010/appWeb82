@@ -28,6 +28,7 @@ namespace WebApplication
             //y = i / j;
           if(Session["StudentData"] != null)
             {
+                
                 Session.Clear();
                 Session.Abandon();
             }
@@ -37,9 +38,7 @@ namespace WebApplication
         }
         protected void btnRegister_Click(object sender, EventArgs e)
         {
-
             string _strDbCon = DbConCls.getDbConn();
-
             if (drpSkill.SelectedIndex==0)
             {
                 lblMsg.Text = "Please select a Skill !";
@@ -61,7 +60,7 @@ namespace WebApplication
                     //do contact_no unique validation and if not exist then go to quixe taking page
                     if (!isExistPh(_objStu.ContactNo))
                     {
-                        //redirect to quixe taking page
+                        //redirect to Quiz Selection page
                         Session["StudentData"] = _objStu;
                         Response.RedirectToRoute("QuizSelectionRoute");
                     }
@@ -74,11 +73,10 @@ namespace WebApplication
                 }
                 catch (Exception ex)
                 {
+                    ExceptionUtility.LogException(ex, "_Default Page");
                 }
             }
         }
-
-
         #endregion
 
         #region Methods
@@ -86,7 +84,6 @@ namespace WebApplication
         private bool isExistPh(double contactNo)
         {
             Boolean flg=false;
-
             try
             {
                 _ods = new DataSet();
@@ -99,7 +96,8 @@ namespace WebApplication
                     flg = true;              
             }
             catch (Exception ex)
-            { 
+            {
+                ExceptionUtility.LogException(ex, "_Default Page - isExistPh methods ");
             }
             finally
             {

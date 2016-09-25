@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" Inherits="WebApplication.Error.ErrorPage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ErrorPage.aspx.cs" 
+    Inherits="WebApplication.Error.ErrorPage" %>
 
 <!DOCTYPE html>
 

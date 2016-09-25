@@ -10,14 +10,14 @@ using WebApplication.App_Code;
 
 namespace WebApplication
 {
-    public partial class QuizSelection : System.Web.UI.Page
+    public partial class QuizSelection : Page
     {
         #region Variables
         SqlConnection _conn;
         SqlCommand _cmd;
         SqlDataAdapter _adp;
         DataSet _ods;
-
+        studentCls _objStu;
         #endregion
 
         #region Events
@@ -37,16 +37,30 @@ namespace WebApplication
 
         protected void btnSelect_Click(object sender, EventArgs e)
         {
-           
+            _objStu = new studentCls();
             if (Page.IsValid)
             {
-                Response.Write("passes !!");
+                try
+                {
+                    if(Session["StudentData"] != null)
+                    {
+                        _objStu = (studentCls)Session["StudentData"];
+                    }
+                    _objStu.QuizeId = int.Parse(drpQuizeType.SelectedValue.ToString());
+                    Session["StudentData"] = _objStu;
+                    //redirect to Quiz Exam Test page with quixId
+                    Response.RedirectToRoute("QuizExamRoute", new { QuizId = drpQuizeType.SelectedValue.ToString() });
+                }
+                catch (Exception ex)
+                {
+                    ExceptionUtility.LogException(ex, "QuizSelection Page");
+                }
             }
         }
         #endregion
 
         #region Methods
-        private void populatedQuizType()
+           private void populatedQuizType()
         {
             string _strQury = DbSqlQuery._sSqlQuizType;
             try
@@ -56,6 +70,7 @@ namespace WebApplication
                 _cmd = new SqlCommand(_strQury, _conn);
                 _adp = new SqlDataAdapter(_strQury, DbConCls.getDbConn());
                 _adp.Fill(_ods);
+                drpQuizeType.Items.Clear();
                 drpQuizeType.DataSource = _ods;
                 drpQuizeType.DataTextField = "QuizeType";
                 drpQuizeType.DataValueField = "Id";
@@ -63,7 +78,7 @@ namespace WebApplication
             }
             catch (Exception ex)
             {
-
+                ExceptionUtility.LogException(ex, "QuizSelection  Page populatedQuizType method ");
             }
             finally
             {
