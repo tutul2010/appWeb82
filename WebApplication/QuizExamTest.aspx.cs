@@ -21,7 +21,6 @@ namespace WebApplication
             Page.Title = "Quiz Exam Test";
             if (!IsPostBack)
             {
-
                 try
                 {
                     if (!string.IsNullOrEmpty(Page.RouteData.Values["QuizId"].ToString()))
@@ -48,8 +47,7 @@ namespace WebApplication
             }
             catch (FormatException ex)
             {
-                //throw new HttpUnhandledException("QuizId must be inter.Error occured!!");
-                ExceptionUtility.LogException(ex, "QuizExamTest Page");
+               ExceptionUtility.LogException(ex, "QuizExamTest Page");
             }
         }
         #endregion

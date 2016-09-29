@@ -44,8 +44,7 @@ namespace WebApplication
                 lblMsg.Text = "Please select a Skill !";
                 drpSkill.Focus();
                 return;
-            }
-               
+            }               
             if(Page.IsValid)
             {
                 try
