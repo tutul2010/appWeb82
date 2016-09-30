@@ -53,7 +53,7 @@ namespace WebApplication
                 }
                 catch (Exception ex)
                 {
-                    ExceptionUtility.LogException(ex, "QuizSelection Page");
+                    ExceptionUtility.LogException(ex, "QuizSelection Page Error !!");
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace WebApplication
                 _ods = new DataSet();
                 _conn = new SqlConnection(DbConCls.getDbConn());
                 _cmd = new SqlCommand(_strQury, _conn);
-                _adp = new SqlDataAdapter(_strQury, DbConCls.getDbConn());
+                _adp = new SqlDataAdapter(_cmd);
                 _adp.Fill(_ods);
                 drpQuizeType.Items.Clear();
                 drpQuizeType.DataSource = _ods;
@@ -78,7 +78,7 @@ namespace WebApplication
             }
             catch (Exception ex)
             {
-                ExceptionUtility.LogException(ex, "QuizSelection  Page populatedQuizType method ");
+                ExceptionUtility.LogException(ex, "QuizSelection  Page-populatedQuizType method Error !!");
             }
             finally
             {

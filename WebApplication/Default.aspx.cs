@@ -54,7 +54,7 @@ namespace WebApplication
                     _objStu.Lnm = txtLNm.Text.Trim().Replace("'", "''");
                     _objStu.EducationalLvl = txtEduLvl.Text.Trim().Replace("'", "''");
                     _objStu.Skill = drpSkill.SelectedValue;
-                    _objStu.ContactNo = double.Parse(txtContNo.Text.Trim().ToString());
+                    _objStu.ContactNo = decimal.Parse(txtContNo.Text.Trim().ToString());
                     _objStu.Email = txtEmail.Text.Trim().Replace("'", "''");
                     //do contact_no unique validation and if not exist then go to quixe taking page
                     if (!isExistPh(_objStu.ContactNo))
@@ -66,13 +66,12 @@ namespace WebApplication
                     else
                     {
                         lblMsg.Text = "Please Enter another Ph No for taking Quixe !!";
-                        txtContNo.Text = "";
                         txtContNo.Focus();
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExceptionUtility.LogException(ex, "_Default Page");
+                    ExceptionUtility.LogException(ex, "_Default Page Error !!");
                 }
             }
         }
@@ -80,23 +79,25 @@ namespace WebApplication
 
         #region Methods
 
-        private bool isExistPh(double contactNo)
+        private bool isExistPh(decimal _contactNo)
         {
             Boolean flg=false;
             try
             {
                 _ods = new DataSet();
-                string _strQury = DbSqlQuery._sSqlExistPhNo + contactNo;
+                string _strQury = DbSqlQuery._sSqlExistPhNo ;
                 _conn = new SqlConnection(DbConCls.getDbConn());
                 _cmd = new SqlCommand(_strQury, _conn);
-                _adp = new SqlDataAdapter(_strQury, DbConCls.getDbConn());                
+                _cmd.Parameters.AddWithValue("@contactNo", _contactNo);
+                _adp = new SqlDataAdapter(_cmd);                
                 _adp.Fill(_ods);
                 if (int.Parse(_ods.Tables[0].Rows[0]["cnt"].ToString()) > 0)
                     flg = true;              
             }
             catch (Exception ex)
             {
-                ExceptionUtility.LogException(ex, "_Default Page - isExistPh methods ");
+                ExceptionUtility.LogException(ex, "_Default Page - isExistPh methods Error !!");
+                flg = true; 
             }
             finally
             {

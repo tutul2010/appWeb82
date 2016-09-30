@@ -25,13 +25,13 @@ namespace WebApplication
                 {
                     if (!string.IsNullOrEmpty(Page.RouteData.Values["QuizId"].ToString()))
                     {
-                        string _strQuizId = Page.RouteData.Values["QuizId"].ToString();
-                        populateQuizQtnsAns(_strQuizId);
+                        //string _strQuizId = Page.RouteData.Values["QuizId"].ToString();
+                        populateQuizQtnsAns(Page.RouteData.Values["QuizId"].ToString());
                     }
                 }
                 catch (Exception ex)
                 {
-                    ExceptionUtility.LogException(ex, "QuizExamTest Page");
+                    ExceptionUtility.LogException(ex, "QuizExamTest Page Error");
                 }
             }
         }
@@ -43,11 +43,12 @@ namespace WebApplication
             try
             {
                 int result = -1;
-                result = int.Parse(_strQuizId);
+                int.TryParse(_strQuizId, out result);
+
             }
             catch (FormatException ex)
             {
-               ExceptionUtility.LogException(ex, "QuizExamTest Page");
+               ExceptionUtility.LogException(ex, "QuizExamTest Page-populateQuizQtnsAns method Error !!");
             }
         }
         #endregion

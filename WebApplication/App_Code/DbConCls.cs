@@ -14,7 +14,7 @@ namespace WebApplication.App_Code
     }
     public partial class DbSqlQuery
     {
-        public  static string _sSqlExistPhNo = "select ISNULL(count(stuDtl.contactNo),'0') as cnt from dbo.studentDtl as stuDtl where stuDtl.contactNo= ";
+        public  static string _sSqlExistPhNo = "SELECT ISNULL(COUNT(stuDtl.contactNo),'0') as cnt from dbo.studentDtl as stuDtl WHERE stuDtl.contactNo=@contactNo";
         public static string _sSqlQuizType = "select qes.Id,qes.QuizeType from dbo.Quize as qes(nolock) ";
 
     }

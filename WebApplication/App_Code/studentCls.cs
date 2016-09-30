@@ -14,7 +14,7 @@ namespace WebApplication.App_Code
         public string EducationalLvl { get; set; }
         public string Skill { get; set; }
         public string Email { get; set; }
-        public double ContactNo { get; set; }
+        public decimal ContactNo { get; set; }
         public int QuizeId { get; set; }
     }
 }
