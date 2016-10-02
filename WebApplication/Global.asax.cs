@@ -29,6 +29,8 @@ namespace WebApplication
             // Log an error msg if application raises any error
             // Get the exception object.
             Exception exc = Server.GetLastError();
+            if (exc == null)
+                return;
             // Handle HTTP errors
             if (exc.GetType() == typeof(HttpException))
             {
@@ -41,17 +43,13 @@ namespace WebApplication
                 //Redirect HTTP errors to HttpError page
                 Server.Transfer("~/Error/HttpErrorPage.aspx");
             }
-            // For other kinds of errors give the user some information
-            // but stay on the default page        
-            ////Response.Write("<h2>Global Page Error</h2>\n");
-            ////Response.Write( "<p>  Some Error Has occured .Please contact with system admin or </p>\n");
-            ////Response.Write("Click <a href='Default.aspx'>Here</a>  for For Returning  to the " +  "Default Page\n");                
-            ////// Log the exception and notify system operators
-            ////ExceptionUtility.LogException(exc, "DefaultPage");
+            // For other kinds of errors give the user some information            
+            ExceptionUtility.LogException(exc, exc.Source.ToString());
             //ExceptionUtility.NotifySystemOps(exc);
             // Clear the error from the server
             Server.ClearError();
-
+            // Go to error page
+            Response.Redirect("~/Error/ErrorPage.aspx");
         }
         void Session_start(object sender, EventArgs e)
         {
@@ -60,6 +58,8 @@ namespace WebApplication
         void Session_End(object sender, EventArgs e)
         {
             // application session end 
+            Session.Clear();
+            Session.Abandon();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,6 +12,14 @@ namespace WebApplication
 {
     public partial class QuizExamTest : Page
     {
+        #region Variables
+        SqlConnection _conn;
+        SqlCommand _cmd;
+        SqlDataAdapter _adp;
+        DataSet _ods;
+
+        #endregion
+
         #region Events
 
         protected void Page_Load(object sender, EventArgs e)
@@ -21,35 +31,30 @@ namespace WebApplication
             Page.Title = "Quiz Exam Test";
             if (!IsPostBack)
             {
-                try
+                if (!string.IsNullOrEmpty(Page.RouteData.Values["QuizId"].ToString()))
                 {
-                    if (!string.IsNullOrEmpty(Page.RouteData.Values["QuizId"].ToString()))
-                    {
-                        //string _strQuizId = Page.RouteData.Values["QuizId"].ToString();
-                        populateQuizQtnsAns(Page.RouteData.Values["QuizId"].ToString());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ExceptionUtility.LogException(ex, "QuizExamTest Page Error");
+                    int result = -1;
+                    result = int.Parse(Page.RouteData.Values["QuizId"].ToString());
+                    populateQuizQtnsAns(result);
                 }
             }
         }
         #endregion
 
         #region Methods
-        private void populateQuizQtnsAns(string _strQuizId)
+        private void populateQuizQtnsAns(int _iQuizId)
         {
-            try
-            {
-                int result = -1;
-                int.TryParse(_strQuizId, out result);
+            _ods = new DataSet();
+            string _strQury = DbSqlQuery._sSqlGetQuixQtns;
+            _conn = new SqlConnection(DbConCls.getDbConn());
+            _cmd = new SqlCommand(_strQury, _conn);
+            _cmd.Parameters.AddWithValue("@quixId", _iQuizId);
+            _adp = new SqlDataAdapter(_cmd);
+            _adp.Fill(_ods);
 
-            }
-            catch (FormatException ex)
-            {
-               ExceptionUtility.LogException(ex, "QuizExamTest Page-populateQuizQtnsAns method Error !!");
-            }
+            _conn.Close();
+            _cmd.Dispose();
+            _adp.Dispose();
         }
         #endregion
     }
